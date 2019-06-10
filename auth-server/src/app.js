@@ -4,6 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const router = require('./routes/books');
 
 // Esoteric Resources
 const errorHandler = require( './middleware/error.js');
@@ -16,6 +17,8 @@ const app = express();
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
+app.use(router);
+app.use(authRouter);
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -33,6 +36,7 @@ module.exports = {
       app.listen(port, () => {
         isRunning = true;
         console.log(`Server Up on ${port}`);
+        app.use(authRouter);
       });
     }
     else {
@@ -40,3 +44,4 @@ module.exports = {
     }
   },
 };
+
