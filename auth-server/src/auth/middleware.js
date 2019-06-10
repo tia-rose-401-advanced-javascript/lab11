@@ -23,6 +23,11 @@ module.exports = (req, res, next) => {
     _authError();
   }
 
+  /**
+   * Decodes the user hash string
+   * @param {String} encodedString 
+   */
+
   function _authBasic(encodedString) {
     let base64Buffer = Buffer.from(encodedString,'base64'); // <Buffer 01 02...>
     let bufferString = base64Buffer.toString(); // john:mysecret
@@ -32,6 +37,11 @@ module.exports = (req, res, next) => {
     return User.authenticateBasic(auth)
       .then( user => _authenticate(user) );
   }
+
+  /**
+   * Generates a token for the user
+   * @param {Object} user 
+   */
 
   function _authenticate(user) {
     if ( user ) {
@@ -43,6 +53,10 @@ module.exports = (req, res, next) => {
       _authError();
     }
   }
+
+  /**
+   * Returns error message if no user or password present
+   */
 
   function _authError() {
     next({status: 401, statusMessage: 'Unauthorized', message: 'Invalid User ID/Password'});
