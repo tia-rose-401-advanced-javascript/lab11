@@ -7,9 +7,10 @@ const User = require('./users-model.js');
 const auth = require('./middleware.js');
 
 authRouter.post('/signup', (req, res, next) => {
+  console.log(req.body);
   let user = new User(req.body);
   user.save()
-    .then( (user) => {
+  .then( (user) => {
       req.token = user.generateToken();
       req.user = user;
       res.set('token', req.token);
